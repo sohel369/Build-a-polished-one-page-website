@@ -183,39 +183,59 @@
     setupMobileNavigation() {
       const mobileToggle = document.querySelector('.nav__mobile-toggle');
       const mobileMenu = document.querySelector('.nav__mobile-menu');
+      const mobileClose = document.querySelector('.nav__mobile-close');
       const mobileLinks = document.querySelectorAll('.nav__mobile-link');
 
+      const closeMobileMenu = () => {
+        mobileToggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      const openMobileMenu = () => {
+        mobileToggle.classList.add('active');
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
       if (mobileToggle && mobileMenu) {
+        // Toggle menu
         mobileToggle.addEventListener('click', () => {
-          mobileToggle.classList.toggle('active');
-          mobileMenu.classList.toggle('active');
-          document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+          if (mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
+          } else {
+            openMobileMenu();
+          }
         });
+
+        // Close button
+        if (mobileClose) {
+          mobileClose.addEventListener('click', closeMobileMenu);
+        }
 
         // Close menu when clicking on links
         mobileLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            mobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-          });
+          link.addEventListener('click', closeMobileMenu);
         });
 
         // Close menu when clicking outside
         mobileMenu.addEventListener('click', (e) => {
           if (e.target === mobileMenu) {
-            mobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+            closeMobileMenu();
           }
         });
 
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-            mobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+            closeMobileMenu();
+          }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
           }
         });
       }
