@@ -175,6 +175,50 @@
           logo.style.transform = 'scale(1) rotate(0deg)';
         });
       }
+
+      // Mobile navigation
+      this.setupMobileNavigation();
+    }
+
+    setupMobileNavigation() {
+      const mobileToggle = document.querySelector('.nav__mobile-toggle');
+      const mobileMenu = document.querySelector('.nav__mobile-menu');
+      const mobileLinks = document.querySelectorAll('.nav__mobile-link');
+
+      if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener('click', () => {
+          mobileToggle.classList.toggle('active');
+          mobileMenu.classList.toggle('active');
+          document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking on links
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          });
+        });
+
+        // Close menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target === mobileMenu) {
+            mobileToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            mobileToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      }
     }
   }
 
