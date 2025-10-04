@@ -189,12 +189,14 @@
       const closeMobileMenu = () => {
         mobileToggle.classList.remove('active');
         mobileMenu.classList.remove('active');
+        document.body.classList.remove('mobile-menu-active');
         document.body.style.overflow = '';
       };
 
       const openMobileMenu = () => {
         mobileToggle.classList.add('active');
         mobileMenu.classList.add('active');
+        document.body.classList.add('mobile-menu-active');
         document.body.style.overflow = 'hidden';
       };
 
